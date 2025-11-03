@@ -1,0 +1,93 @@
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px 80px;
+  background: #fff;
+}
+
+.home-content {
+  max-width: 550px;
+}
+
+.home-content h1 {
+  font-size: 46px;
+  line-height: 1.2;
+  color: #333;
+}
+
+.home-content .highlight {
+  color: #ff6b4a;
+}
+
+.home-content p {
+  color: #666;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.home-buttons button {
+  margin-right: 15px;
+  padding: 12px 22px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.shop-btn {
+  background: #ff6b4a;
+  color: #fff;
+}
+
+.book-btn {
+  background: #27b89b;
+  color: #fff;
+}
+
+.stats {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.stats div {
+  text-align: center;
+}
+
+.image-card {
+  position: relative;
+  background: linear-gradient(135deg, #ff8c6a, #ff6b4a);
+  padding: 100px;
+  border-radius: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.image-card img {
+  width: 100px;
+  filter: brightness(0) invert(1);
+}
+
+.tag {
+  position: absolute;
+  background: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.top-left {
+  top: 15px;
+  left: 15px;
+  color: #ff6b4a;
+}
+
+.bottom-right {
+  bottom: 15px;
+  right: 15px;
+  color: #ff6b4a;
+}

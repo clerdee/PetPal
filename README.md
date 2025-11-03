@@ -1,3 +1,12 @@
+START:
+backend - npm start
+frontend - npm run dev
+
+connect soon with axios
+
+🐾 PetPal — Pet Products & Grooming Services
+🐕 Buy pet food or book pet grooming services.
+
 BACKEND (Node + Express + MongoDB + Cloudinary):
 1. Authentication (bcrypt + JWT)
 2. Photo uploads (multer + cloudinary)
@@ -12,25 +21,25 @@ FRONTEND (React + MUI + Bootstrap + React Router + Toastify):
 4. Pagination / infinite scroll
 5. Toast notifications
 
-🐾 8. PetPal — Pet Products & Grooming Services
-🐕 Buy pet food or book pet grooming services.
-
 Key Features:
 Two modules: Products and Services
 CRUD for both (multi-photo)
 Customers can rate services or products
 Admin updates booking status and sends email updates
 
-cd backend
+- PACKAGES
+cd backend - npm start
 npm init -y
-npm i express mongoose cors dotenv bcryptjs jsonwebtoken multer cloudinary nodemailer validator crypto
-npm i bad-words firebase-admin
-npm i -D nodemon
+npm i express mongoose cors dotenv bcryptjs jsonwebtoken multer cloudinary nodemailer validator crypto bad-words firebase-admin -D nodemon (npm list)
 
 cd frontend - npm run dev
 npm create vite@latest .
-npm i react-router-dom axios react-toastify @mui/material @emotion/react @emotion/styled react-bootstrap react-helmet react-js-pagination
-npm i formik yup recharts
+npm i react-router-dom axios react-toastify @mui/material @emotion/react @emotion/styled react-bootstrap react-helmet react-js-pagination formik yup recharts (npm list)
+
+cd petpal
+npm init -y
+npm install concurrently - axios
+- 
 
 db
 model
@@ -39,7 +48,6 @@ route
 middleware(?)
 insomnia(testing)
 
-
 Once this works, we can continue with:
 
 🐾 Protecting routes (authMiddleware)
@@ -47,3 +55,10 @@ Once this works, we can continue with:
 🛒 Adding CRUD for Products and Services
 🧾 Adding Ratings and Bookings
 
+=====
+FRONTEND
+App.jsx - route configuration for the frontend
+
+log in function work then push changes 
+create account = register
+about & contact sa baba ng home/together with home (check html)
