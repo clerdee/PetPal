@@ -1,0 +1,298 @@
+/* src/css/checkout-layout.css */
+
+/* --- Page Wrapper --- */
+.checkout-page-wrapper {
+    background-color: #f7f7f7; /* Light grey background for the whole page */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header / Back Button --- */
+.checkout-header {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* --- Main Grid Content --- */
+.checkout-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr; /* Wider left column, narrower right */
+    gap: 2rem; /* Space between columns */
+    max-width: 1200px; /* Max width for content */
+    margin: 2rem auto; /* Center the content */
+    padding: 0 2rem; /* Padding on sides */
+    flex-grow: 1; /* Allows it to take up available vertical space */
+}
+
+/* --- Left Side: Payment Form & Billing --- */
+.main-checkout-content {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+}
+
+.main-checkout-content .error-message {
+    color: #d32f2f;
+    background-color: #ffebee;
+    border: 1px solid #d32f2f;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+
+/* --- Payment Form Overrides (from PaymentForm.jsx) --- */
+.payment-form-container {
+    background-color: transparent; /* No background, main-checkout-content has it */
+    padding: 0; /* No extra padding, main-checkout-content has it */
+    box-shadow: none; /* No extra shadow */
+    margin-top: 0;
+}
+
+.payment-form-container h3 {
+    font-size: 1.2rem;
+    color: #444;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    border-bottom: none; /* Remove border from sub-headers */
+}
+
+.form-group-row {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.payment-form-container input,
+.payment-form-container select {
+    padding: 1rem 1.2rem; /* Larger padding for inputs */
+    font-size: 1rem;
+    border-color: #e0e0e0; /* Lighter border */
+    border-radius: 8px; /* More rounded */
+}
+
+.payment-form-container input:focus,
+.payment-form-container select:focus {
+    border-color: #007bff; /* Focus color */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+/* Card input with logos */
+.card-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.card-input-wrapper input {
+    padding-right: 120px; /* Make space for logos */
+}
+
+.card-type-logos {
+    position: absolute;
+    right: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.card-type-logos img {
+    height: 18px; /* Size for logos */
+    opacity: 0.7;
+}
+
+/* Security code input with icon */
+.security-code-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.security-code-wrapper input {
+    padding-right: 40px; /* Space for icon */
+}
+
+.security-code-icon {
+    position: absolute;
+    right: 15px;
+    color: #888;
+    font-size: 1.2em;
+}
+
+
+/* --- Right Side: Order Summary Card --- */
+.order-summary-card {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column; /* Stack contents vertically */
+}
+
+.order-summary-card h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.features-list .icon {
+    font-size: 1.2rem;
+    color: #007bff; /* Accent color for icons */
+}
+
+.summary-details {
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+    margin-top: auto; /* Pushes totals to bottom before button */
+    padding-bottom: 1.5rem; /* Space before button */
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+.summary-line.due-today {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-top: 1.5rem;
+}
+
+.summary-line.due-today span:last-child {
+    font-size: 1.5rem;
+}
+
+.black-bg-btn {
+    background-color: #000 !important; /* Force black background */
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    width: 100%; /* Make it full width */
+    text-transform: none !important; /* Remove uppercase if MUI default */
+}
+
+.black-bg-btn:hover {
+    background-color: #333 !important;
+}
+
+.terms-text {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 1.5rem;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.terms-text a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.terms-text a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+    .checkout-content-grid {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+        padding: 0 1rem;
+    }
+    .main-checkout-content, .order-summary-card {
+        padding: 1.5rem;
+    }
+    .checkout-header {
+        padding: 1rem 1rem;
+    }
+}
+
+.summary-products-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 1.5rem;
+}
+
+.product-line-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.summary-thumb {
+    width: 40px; /* Small square thumbnail size */
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 1rem;
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+.item-name-qty {
+    display: flex;
+    align-items: baseline;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.item-qty {
+    font-size: 0.8em;
+    color: #888;
+    margin-left: 0.5rem;
+}
+
+/* Adjust the main list item to be a flex container */
+.product-line-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}

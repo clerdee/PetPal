@@ -1,140 +1,60 @@
+// backend/controllers/authController.js
 const User = require('../models/userModel');
-const crypto = require('crypto');
+const admin = require('firebase-admin'); 
 const cloudinary = require('cloudinary');
-const sendEmail = require('../utils/sendEmail'); 
+// const admin = require('../config/firebaseAdmin');
+const sendToken = require('../utils/jwtToken');
 
-// 🐾 REGISTER USER
-exports.registerUser = async (req, res, next) => {
-    try {
-        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'avatars',
-            width: 150,
-            crop: "scale"
-        });
+// ---------------------------------------------------------------
+// 🐾 CREATE/UPDATE USER (LOGIN/REGISTER HANDLER)
+// ---------------------------------------------------------------
+exports.createOrUpdateUser = async (req, res, next) => {
+    const { idToken } = req.body;
 
-        const { name, email, password } = req.body;
-
-        const user = await User.create({
-            name,
-            email,
-            password,
-            avatar: {
-                public_id: result.public_id,
-                url: result.secure_url
-            },
-        });
-
-        const token = user.getJwtToken();
-
-        return res.status(201).json({
-            success: true,
-            message: "Welcome to PetPal! Registration successful 🐶",
-            user,
-            token
-        });
-    } catch (error) {
-        console.error("Register Error:", error.message);
-        return res.status(500).json({ message: "Registration failed", error: error.message });
+    if (!idToken) {
+        return res.status(400).json({ message: 'No ID token provided.' });
     }
-};
-
-// 🐾 LOGIN USER
-exports.loginUser = async (req, res, next) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({ message: 'Please enter email & password' });
-    }
-
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-        return res.status(401).json({ message: 'Invalid Email or Password' });
-    }
-
-    const isPasswordMatched = await user.comparePassword(password);
-    if (!isPasswordMatched) {
-        return res.status(401).json({ message: 'Invalid Email or Password' });
-    }
-
-    const token = user.getJwtToken();
-
-    res.status(200).json({
-        success: true,
-        message: "Login successful! 🐾",
-        token,
-        user
-    });
-};
-
-// 🐾 FORGOT PASSWORD
-exports.forgotPassword = async (req, res, next) => {
-    const user = await User.findOne({ email: req.body.email });
-
-    if (!user) {
-        return res.status(404).json({ message: 'No account found with that email' });
-    }
-
-    const resetToken = user.getResetPasswordToken();
-    await user.save({ validateBeforeSave: false });
-
-    const resetUrl = `${req.protocol}://localhost:5173/password/reset/${resetToken}`;
-
-    const message = `Hello ${user.name},\n\nYou requested a password reset for your PetPal account.\nReset it using the link below:\n\n${resetUrl}\n\nIf you didn’t request this, please ignore this email.`;
 
     try {
-        await sendEmail({
-            email: user.email,
-            subject: 'PetPal Password Recovery',
-            message
-        });
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const { name, email, uid } = decodedToken;
 
-        res.status(200).json({
-            success: true,
-            message: `Email sent to: ${user.email}`
-        });
+        let user = await User.findOne({ firebaseUid: uid });
+
+        if (user) {
+            return res.status(200).json({
+                success: true,
+                message: "Welcome back to PetPal! 🐾",
+                user,
+            });
+        } else {
+            const newUser = await User.create({
+                firebaseUid: uid,
+                email: email,
+                name: name || email.split('@')[0], 
+            });
+            
+            return res.status(201).json({
+                success: true,
+                message: "Welcome to PetPal! 🐶",
+                user: newUser,
+            });
+        }
     } catch (error) {
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-        await user.save({ validateBeforeSave: false });
-        return res.status(500).json({ message: error.message });
+        console.error("Create/Update User Error:", error.message);
+        return res.status(400).json({ message: "Authentication failed. Token may be invalid.", error: error.message });
     }
 };
 
-// 🐾 RESET PASSWORD
-exports.resetPassword = async (req, res, next) => {
-    const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
-
-    const user = await User.findOne({
-        resetPasswordToken,
-        resetPasswordExpire: { $gt: Date.now() }
-    });
-
-    if (!user) {
-        return res.status(400).json({ message: 'Password reset token is invalid or has expired' });
-    }
-
-    if (req.body.password !== req.body.confirmPassword) {
-        return res.status(400).json({ message: 'Passwords do not match' });
-    }
-
-    user.password = req.body.password;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-    await user.save();
-
-    const token = user.getJwtToken();
-
-    res.status(201).json({
-        success: true,
-        message: "Password has been successfully reset 🐾",
-        token,
-        user
-    });
-};
-
+// ---------------------------------------------------------------
 // 🐾 GET USER PROFILE
+// ---------------------------------------------------------------
 exports.getUserProfile = async (req, res, next) => {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id); 
+
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
 
     return res.status(200).json({
         success: true,
@@ -142,65 +62,159 @@ exports.getUserProfile = async (req, res, next) => {
     });
 };
 
-// 🐾 UPDATE USER PROFILE
+// ---------------------------------------------------------------
+// 🐾 UPDATE USER PROFILE 
+// ---------------------------------------------------------------
 exports.updateProfile = async (req, res, next) => {
+
+    const { name, email, avatar, fullName, phoneNumber, shippingAddress, city, country } = req.body;
+    
+    const user = await User.findById(req.user.id);
+    
+    if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+    }
+
     const newUserData = {
-        name: req.body.name,
-        email: req.body.email
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        shippingAddress: shippingAddress,
+        city: city,
+        country: country,
     };
+    const firebaseUpdates = {}; 
 
-    // Update avatar if new image uploaded
-    if (req.body.avatar && req.body.avatar !== '') {
-        const user = await User.findById(req.user.id);
-        const image_id = user.avatar.public_id;
-        await cloudinary.v2.uploader.destroy(image_id);
+    try {
+        if (email && email !== user.email) {
+            await admin.auth().updateUser(user.firebaseUid, { email: email });
+            newUserData.email = email; 
+        }
 
-        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'avatars',
-            width: 150,
-            crop: "scale"
+        if (name && name !== user.name) {
+            newUserData.name = name;
+            firebaseUpdates.displayName = name;
+        }
+
+        if (avatar) { 
+            if (user.avatar && user.avatar.public_id !== 'avatars/default_avatar') { 
+                await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+            }
+
+            const result = await cloudinary.v2.uploader.upload(avatar, {
+                folder: 'avatars',
+                width: 150,
+                crop: "scale"
+            });
+
+            newUserData.avatar = {
+                public_id: result.public_id,
+                url: result.secure_url
+            };
+            firebaseUpdates.photoURL = result.secure_url;
+        }
+
+        if (Object.keys(firebaseUpdates).length > 0) {
+            await admin.auth().updateUser(user.firebaseUid, firebaseUpdates);
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(user.id, newUserData, {
+            new: true, 
+            runValidators: true,
         });
 
-        newUserData.avatar = {
-            public_id: result.public_id,
-            url: result.secure_url
-        };
+        res.status(200).json({
+            success: true,
+            message: "Profile and shipping details updated successfully 🐶",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        if (error.code && error.code === 'auth/email-already-in-use') {
+            return res.status(409).json({ 
+                message: 'This email is already in use by another account.', 
+                error: error.message 
+            });
+        }
+        console.error("Update Profile Error:", error);
+        return res.status(500).json({ message: "Profile update failed", error: error.message });
     }
-
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-        new: true,
-        runValidators: true,
-    });
-
-    if (!user) {
-        return res.status(400).json({ message: 'User not found or update failed' });
-    }
-
-    res.status(200).json({
-        success: true,
-        message: "Profile updated successfully 🐶",
-        user
-    });
 };
 
-// 🐾 UPDATE PASSWORD
-exports.updatePassword = async (req, res, next) => {
-    const user = await User.findById(req.user.id).select('+password');
+// ---------------------------------------------------------------
+// 🐾 ADMIN: UPDATE USER ROLE/STATUS 
+// ---------------------------------------------------------------
+exports.updateUserRoleStatus = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const { role, active } = req.body; 
 
-    const isMatched = await user.comparePassword(req.body.oldPassword);
-    if (!isMatched) {
-        return res.status(400).json({ message: 'Old password is incorrect' });
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const updateFields = {};
+        if (role) updateFields.role = role;
+        if (active !== undefined) updateFields.active = active;
+
+        const updatedUser = await User.findByIdAndUpdate(userId, updateFields, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        });
+
+        if (role && role !== user.role) {
+        }
+
+        if (req.user.id.toString() === userId.toString() && active === false) {
+             return res.status(400).json({ message: 'Error: Cannot deactivate your own admin account.' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `User ${updatedUser.name} updated successfully.`,
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error("Admin User Update Error:", error);
+        res.status(500).json({ message: "User update failed", error: error.message });
     }
+};
 
-    user.password = req.body.password;
-    await user.save();
+// ---------------------------------------------------------------
+// SOCIAL LOGIN HANDLER
+// ---------------------------------------------------------------
+exports.socialLogin = async (req, res, next) => {
+    try {
+        const { token } = req.body;
 
-    const token = user.getJwtToken();
+        // 1. Verify the Firebase token
+        const decodedToken = await admin.auth().verifyIdToken(token);
 
-    res.status(201).json({
-        success: true,
-        message: "Password updated successfully 🐾",
-        user,
-        token
-    });
+        // 2. Get user info from the token
+        const { email, name, picture } = decodedToken;
+
+        // 3. Check if user exists in your MongoDB
+        let user = await User.findOne({ email });
+
+        // 4. If user does not exist, create them
+        if (!user) {
+            user = await User.create({
+                name,
+                email,
+                avatar: {
+                    public_id: 'default_avatar', 
+                    url: picture
+                },
+            });
+        }
+
+        sendToken(user, 200, res);
+
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ success: false, message: 'Invalid social login token' });
+    }
 };

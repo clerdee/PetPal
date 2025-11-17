@@ -1,0 +1,160 @@
+/* src/css/AdminLayout.css */
+
+/* --- Main Layout --- */
+.admin-layout-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9f9f9; /* Light grey background for content */
+}
+
+.admin-sidebar {
+    width: 250px;
+    flex-shrink: 0; /* Don't shrink the sidebar */
+    background-color: #5A4BDE; /* The purple from your screenshot */
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-main-content {
+    flex-grow: 1; /* Take up the rest of the space */
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-content-area {
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+/* --- Sidebar Content --- */
+.admin-logo {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.admin-nav-link {
+    text-decoration: none;
+    color: #e0e0e0;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.admin-nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* This is the magic "active" class from NavLink */
+.admin-nav-link.active {
+    background-color: #fff;
+    color: #5A4BDE;
+    font-weight: 700;
+}
+
+/* --- Header Content --- */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-search-bar input {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    width: 300px;
+}
+
+.admin-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* src/css/adminlayout.css */
+/* ... (existing styles) ... */
+
+/* --- Logout Button Styles --- */
+.admin-logout-btn {
+    padding: 0.5rem 1rem;
+    background: none;
+    color: #a0a0a0;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-left: 1rem;
+}
+
+.admin-logout-btn:hover {
+    color: #c0392b; /* A nice red on hover */
+    border-color: #c0392b;
+    background-color: #fceceb;
+}
+
+/* If you are using Font Awesome, this will display the icon correctly */
+.admin-logout-btn i {
+    margin-right: 5px;
+}
+
+/* Style the main dashboard grid items */
+.MuiGrid-item {
+    padding: 16px; /* Ensure consistent spacing */
+}
+
+/* Base style for the chart container paper */
+.MuiPaper-root {
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Style for the Total Revenue Card (from OrdersList.jsx, but used here for consistency) */
+.MuiCard-root {
+    background-color: #f0f8ff; /* Very light blue for a clean data background */
+    border: 1px solid #e1f5fe;
+}
+
+/* Target the Bar/Line Chart's main container */
+.recharts-wrapper {
+    /* Ensure the chart area is visually separated */
+    padding-top: 10px;
+}
+
+/* Target the Date Range Filter Buttons (Enhance default MUI buttons) */
+.MuiBox-root > button { /* Targets the Filter button */
+    background-color: #e67e22; /* PetPal Orange */
+}
+
+.MuiBox-root > button:hover {
+    background-color: #d35400; /* Darker orange */
+}
+
+/* Styling for the Bar Chart Color (defined in JSX, but good to know) */
+/* The fill="#27ae60" (green) and stroke="#e67e22" (orange) colors make them pop */
+
+/* General Typography for axis labels (optional, but makes chart cleaner) */
+.recharts-text {
+    font-size: 0.8rem;
+    fill: #666;
+}
