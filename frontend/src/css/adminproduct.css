@@ -1,0 +1,87 @@
+/* src/css/adminproduct.css */
+.new-product-form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 1.5rem;
+}
+
+.new-product-form .form-group {
+    /* Ensures fields like description/images span both columns */
+    grid-column: span 2; 
+    margin-bottom: 0;
+}
+
+.new-product-form .half-width {
+    grid-column: span 1; /* These fields only span one column */
+}
+
+.new-product-form label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.new-product-form input[type="text"],
+.new-product-form input[type="number"],
+.new-product-form textarea,
+.new-product-form select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.image-preview-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem 0;
+    border-top: 1px dashed #eee;
+}
+
+.image-preview-thumb {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Update these styles to make the modal utilize more space */
+.modal-content.modal-lg {
+    /* ⭐️ FIX 1: Increase overall width ⭐️ */
+    max-width: 750px; /* Wider modal */
+    width: 90%;
+    
+    /* ⭐️ FIX 2: Reduce top/bottom internal padding ⭐️ */
+    padding: 1.5rem 2rem; 
+    
+    max-height: 90vh; /* Ensure modal fits on 90% of screen height */
+    overflow-y: auto; /* IMPORTANT: Allows the modal content to scroll if it gets too tall */
+}
+
+/* --- Form Groups Spacing Adjustment --- */
+/* Target the form groups specifically within the modal to remove excess gap */
+.modal-content.modal-lg .new-product-form {
+    /* Reduces the grid gap slightly for a more compact form */
+    gap: 1rem 2rem; 
+}
+
+/* Reduce vertical space around inputs */
+.modal-content.modal-lg .new-product-form .form-group label {
+    margin-bottom: 0.3rem; /* Reduce label-to-input space */
+}
+
+/* ⭐️ FIX 3: Compress the Image Preview Section ⭐️ */
+.modal-content.modal-lg .image-preview-container {
+    max-height: 100px; /* Keep previews in a tight row */
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* Added more space above the buttons */
+    margin-bottom: 0.5rem; 
+}

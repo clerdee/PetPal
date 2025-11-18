@@ -1,0 +1,163 @@
+/* src/css/cart.css */
+
+/* --- Modal Size --- */
+.modal-content.modal-cart {
+    max-width: 600px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-cart h2 {
+    text-align: left;
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* --- Empty Cart Styles --- */
+.empty-cart-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: #888;
+}
+
+.empty-cart-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.empty-cart-message p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Item List Styles --- */
+.cart-items-list {
+    flex-grow: 1; /* Takes up available space */
+    overflow-y: auto;
+    max-height: 50vh; /* Max height before list scrolls */
+    padding-right: 10px; /* Space for scrollbar */
+    margin-bottom: 1rem;
+}
+
+.cart-item-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.cart-item-price,
+.cart-item-quantity {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0.25rem 0 0;
+}
+
+.cart-item-subtotal {
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: right;
+}
+
+.cart-item-remove {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 0.5rem;
+}
+
+.cart-item-remove:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* --- Footer Summary --- */
+.cart-summary-footer {
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.cart-total-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.total-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e67e22; /* PetPal Orange */
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.qty-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.qty-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.qty-display {
+    padding: 0 1rem;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}

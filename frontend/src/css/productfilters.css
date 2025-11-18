@@ -1,0 +1,63 @@
+/* src/css/productfilters.css */
+.filter-panel {
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    min-width: 250px;
+    position: sticky;
+    top: 2rem;
+}
+
+.filter-panel h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.filter-group {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-group h3 {
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+}
+
+.filter-group input[type="range"],
+.filter-group select {
+    width: 100%;
+    padding: 0.5rem 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Rating options */
+.rating-option {
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    margin-bottom: 0.4rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.rating-option:hover {
+    background-color: #f0f0f0;
+}
+
+.rating-option.active {
+    background-color: #e67e22;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-clear {
+    background-color: #f0f0f0;
+    color: #333;
+    width: 100%;
+}

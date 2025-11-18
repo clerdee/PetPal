@@ -1,0 +1,123 @@
+/* src/css/header.css */
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 80px; 
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0; 
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.header-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+.header-logo span {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.header-nav {
+    display: flex;
+    gap: 16px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.header-nav a { 
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+    border-bottom: 3px solid transparent; 
+}
+
+.header-nav a:hover {
+    background-color: #f5f5f5;
+    color: #111;
+}
+
+.header-nav a.active {
+    color: #e67e22; 
+    border-bottom: 3px solid #e67e22;
+    background-color: transparent;
+}
+
+.header-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cart-icon-btn {
+    color: #333 !important; 
+}
+
+.cart-icon-btn .MMuiSvgIcon-root {
+    font-size: 1.75rem; 
+}
+
+.MuiBadge-badge {
+    background-color: #e67e22 !important; 
+    color: white !important;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #e67e22;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #d35400;
+}
+
+.btn-secondary {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ccc;
+}
+.btn-secondary:hover {
+    background-color: #e0e0e0;
+}
+
+.cart-icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+}
+
+.cart-badge {
+   display: none; 
+}

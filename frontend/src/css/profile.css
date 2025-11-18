@@ -1,0 +1,238 @@
+/* src/css/Profile.css - Finalized Styles for User Profile */
+
+.profile-page-container {
+    max-width: 800px; 
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+.profile-content-box {
+    background: #fff;
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+/* --- Typography & Headings --- */
+.profile-content-box h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.profile-content-box p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 2.5rem;
+}
+
+.form-section-title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* --- Form General Layout --- */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-form .form-group {
+    margin-bottom: 1rem;
+}
+
+/* --- Two-Column Grid Setup (Shipping/Contact) --- */
+.form-group-row {
+    display: flex;
+    gap: 1.5rem; /* Space between the two columns */
+    margin-bottom: 1rem;
+}
+
+.form-group-row .form-group {
+    flex: 1; /* Makes each column take up 50% width */
+}
+
+/* --- Input & Label Styling --- */
+.profile-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.profile-input:disabled {
+    background: #f4f4f4;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* --- Avatar Upload Group --- */
+.form-group.avatar-group {
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.avatar-preview-wrapper {
+    width: 150px;
+    height: 150px;
+    margin: 0.5rem auto 1rem;
+    border: 3px solid #f0f0f0;
+    border-radius: 50%;
+    overflow: hidden; 
+}
+
+.avatar-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.avatar-file-input {
+    display: none; 
+}
+
+label[for="avatar-upload"] {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+/* --- Messages & Buttons --- */
+.error-message {
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.success-message {
+    color: #27ae60;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.btn-full-width {
+    width: 100%;
+    /* ⭐️ FIX: Added top margin for button separation ⭐️ */
+    margin-top: 2rem; 
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+/* --- My Reviews Page Styles --- */
+
+.review-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.review-item-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.review-item-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    border-color: #e67e22; /* PetPal Orange highlight on hover */
+}
+
+.review-item-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    flex-shrink: 0; /* Prevents image from squishing */
+}
+
+.review-item-details {
+    flex-grow: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.review-item-details h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.review-item-details p {
+    margin: 0;
+    color: #e67e22;
+    font-weight: 600;
+    text-align: left; 
+    font-size: 1.1rem;
+}
+
+.review-order-id {
+    font-size: 0.85rem !important;
+    color: #888 !important; 
+    font-weight: 500 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.review-order-id {
+    font-size: 0.85rem !important;
+    color: #888 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+.review-order-date {
+    font-size: 0.85rem !important;
+    color: #555 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    .review-item-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .review-item-details {
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .review-item-details p {
+        text-align: center;
+    }
+    
+    .review-item-card button {
+        width: 100%; /* Full width button on mobile */
+    }
+}
