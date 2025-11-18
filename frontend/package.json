@@ -23,6 +23,7 @@
     "mdbreact": "^5.2.0",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",
+    "react-data-table-component": "^7.7.0",
     "react-dom": "^19.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.66.0",
@@ -30,6 +31,7 @@
     "react-router-dom": "^7.9.5",
     "react-toastify": "^11.0.5",
     "recharts": "^3.4.1",
+    "styled-components": "^6.1.19",
     "sweetalert2": "^11.26.3",
     "yup": "^1.7.1"
   },

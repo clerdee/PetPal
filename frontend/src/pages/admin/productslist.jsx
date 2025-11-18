@@ -6,8 +6,6 @@ import Loader from '../../layout/Loader.jsx';
 import '../../css/adminproductlist.css'; 
 import ProductModal from '../../components/admin/productmodal.jsx';
 import ImageGalleryModal from '../../components/admin/imagegallerymodal.jsx';
-
-// ⭐️ 1. Import MUI Dialog components
 import { 
     Dialog, 
     DialogActions, 
@@ -30,8 +28,6 @@ const ProductsList = () => {
     const [showGallery, setShowGallery] = useState(false);
     const [galleryImages, setGalleryImages] = useState([]);
     const [galleryProductName, setGalleryProductName] = useState('');
-
-    // ⭐️ 2. Add state for the confirmation dialog
     const [showConfirm, setShowConfirm] = useState(false);
 
     const fetchProducts = async () => {
@@ -49,7 +45,6 @@ const ProductsList = () => {
         if (idToken) fetchProducts();
     }, [idToken]);
 
-    // --- Modal Handlers ---
     const openEditModal = (id) => {
         setModalProductId(id);
         setModalMode('edit');
@@ -80,7 +75,6 @@ const ProductsList = () => {
         setGalleryProductName('');
     };
 
-    // --- Bulk Select Handlers ---
     const handleSelectAll = (e) => {
         if (e.target.checked) {
             const allIds = products.map(p => p._id);
@@ -98,11 +92,8 @@ const ProductsList = () => {
         }
     };
 
-    // ⭐️ 3. This function now just performs the delete
     const handleBulkDelete = async () => {
         if (selectedIds.length === 0) return;
-        // ❌ Removed window.confirm
-        // if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected products?`)) return;
 
         try {
             await axios.delete(`${backendUrl}/admin/products/delete-bulk`, {
@@ -112,19 +103,15 @@ const ProductsList = () => {
 
             setProducts(products.filter(p => !selectedIds.includes(p._id)));
             setSelectedIds([]); 
-            // ❌ Removed alert
-            // alert(`${selectedIds.length} products deleted successfully!`);
-            // You can add a toast message here if you like
 
         } catch (err) {
             setError(err.response?.data?.message || "Bulk deletion failed.");
         }
     };
 
-    // ⭐️ 4. Add a new handler for the dialog's "Confirm" button
     const handleConfirmDelete = async () => {
-        setShowConfirm(false); // Close the dialog
-        await handleBulkDelete(); // Call the delete function
+        setShowConfirm(false); 
+        await handleBulkDelete(); 
     };
 
     if (loading) return <Loader />;
@@ -142,7 +129,6 @@ const ProductsList = () => {
                 <div className="bulk-actions-bar">
                     <span>{selectedIds.length} selected</span>
                     <button 
-                        // ⭐️ 5. Change onClick to open the dialog
                         onClick={() => setShowConfirm(true)} 
                         className="btn btn-danger"
                     >
@@ -245,17 +231,15 @@ const ProductsList = () => {
                 {products.length === 0 && <p className="no-products">No products found. Add one!</p>}
             </div>
             
-            {/* RENDER THE MODAL */}
             {showModal && (
                 <ProductModal 
                     productId={modalProductId}
-                    modalMode={modalMode} // Pass 'edit' or 'delete' mode
+                    modalMode={modalMode} 
                     onClose={closeModal}
                     onUpdateSuccess={fetchProducts} 
                 />
             )}
-            
-            {/* RENDER THE IMAGE GALLERY MODAL */}
+        
             {showGallery && (
                 <ImageGalleryModal
                     images={galleryImages}
