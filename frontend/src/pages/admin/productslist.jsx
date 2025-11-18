@@ -1,4 +1,3 @@
-// src/pages/admin/productslist.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx'; 
 import { Link } from 'react-router-dom';
@@ -7,6 +6,16 @@ import Loader from '../../layout/Loader.jsx';
 import '../../css/adminproductlist.css'; 
 import ProductModal from '../../components/admin/productmodal.jsx';
 import ImageGalleryModal from '../../components/admin/imagegallerymodal.jsx';
+
+// ⭐️ 1. Import MUI Dialog components
+import { 
+    Dialog, 
+    DialogActions, 
+    DialogContent, 
+    DialogContentText, 
+    DialogTitle,
+    Button 
+} from '@mui/material';
 
 const ProductsList = () => {
     const [products, setProducts] = useState([]);
@@ -21,6 +30,9 @@ const ProductsList = () => {
     const [showGallery, setShowGallery] = useState(false);
     const [galleryImages, setGalleryImages] = useState([]);
     const [galleryProductName, setGalleryProductName] = useState('');
+
+    // ⭐️ 2. Add state for the confirmation dialog
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const fetchProducts = async () => {
         try {
@@ -86,9 +98,11 @@ const ProductsList = () => {
         }
     };
 
+    // ⭐️ 3. This function now just performs the delete
     const handleBulkDelete = async () => {
         if (selectedIds.length === 0) return;
-        if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected products?`)) return;
+        // ❌ Removed window.confirm
+        // if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected products?`)) return;
 
         try {
             await axios.delete(`${backendUrl}/admin/products/delete-bulk`, {
@@ -98,11 +112,19 @@ const ProductsList = () => {
 
             setProducts(products.filter(p => !selectedIds.includes(p._id)));
             setSelectedIds([]); 
-            alert(`${selectedIds.length} products deleted successfully!`);
+            // ❌ Removed alert
+            // alert(`${selectedIds.length} products deleted successfully!`);
+            // You can add a toast message here if you like
 
         } catch (err) {
             setError(err.response?.data?.message || "Bulk deletion failed.");
         }
+    };
+
+    // ⭐️ 4. Add a new handler for the dialog's "Confirm" button
+    const handleConfirmDelete = async () => {
+        setShowConfirm(false); // Close the dialog
+        await handleBulkDelete(); // Call the delete function
     };
 
     if (loading) return <Loader />;
@@ -120,7 +142,8 @@ const ProductsList = () => {
                 <div className="bulk-actions-bar">
                     <span>{selectedIds.length} selected</span>
                     <button 
-                        onClick={handleBulkDelete} 
+                        // ⭐️ 5. Change onClick to open the dialog
+                        onClick={() => setShowConfirm(true)} 
                         className="btn btn-danger"
                     >
                         Bulk Delete
@@ -187,7 +210,6 @@ const ProductsList = () => {
                                     </button>
                                 </td>
                                 
-                                {/* ⭐️ NAME CELL: MODIFIED TO BE CLICKABLE (Image Gallery) ⭐️ */}
                                 <td data-label="Name">
                                     <button 
                                         onClick={() => openGallery(product.images, product.name)} 
@@ -201,7 +223,6 @@ const ProductsList = () => {
                                 <td data-label="Stock">{product.stock}</td>
                                 <td data-label="Price">₱{product.price.toFixed(2)}</td>
                                 
-                                {/* ⭐️ ACTIONS CELL ⭐️ */}
                                 <td data-label="Actions">
                                     <button 
                                         onClick={() => openEditModal(product._id)} 
@@ -224,18 +245,17 @@ const ProductsList = () => {
                 {products.length === 0 && <p className="no-products">No products found. Add one!</p>}
             </div>
             
-            {/* ⭐️ RENDER THE MODAL ⭐️ */}
+            {/* RENDER THE MODAL */}
             {showModal && (
                 <ProductModal 
                     productId={modalProductId}
                     modalMode={modalMode} // Pass 'edit' or 'delete' mode
                     onClose={closeModal}
-                    // This prop refreshes the list when the modal is closed after a successful action
                     onUpdateSuccess={fetchProducts} 
                 />
             )}
             
-            {/* ⭐️ RENDER THE IMAGE GALLERY MODAL ⭐️ */}
+            {/* RENDER THE IMAGE GALLERY MODAL */}
             {showGallery && (
                 <ImageGalleryModal
                     images={galleryImages}
@@ -243,6 +263,33 @@ const ProductsList = () => {
                     onClose={closeGallery}
                 />
             )}
+
+            {/* ⭐️ 6. Add the MUI Dialog JSX */}
+            <Dialog
+                open={showConfirm}
+                onClose={() => setShowConfirm(false)}
+                aria-labelledby="bulk-delete-confirm-title"
+                aria-describedby="bulk-delete-confirm-description"
+            >
+                <DialogTitle id="bulk-delete-confirm-title">
+                    Confirm Bulk Deletion
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="bulk-delete-confirm-description">
+                        Are you sure you want to delete **{selectedIds.length}** selected products?
+                        This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowConfirm(false)}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="error" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </div>
     );
 };
